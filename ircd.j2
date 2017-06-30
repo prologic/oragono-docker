@@ -1,0 +1,52 @@
+network:
+  name: {{ NETWORK_NAME }}
+
+server:
+  name: {{ SERVER_HOSTNAME }}
+
+  listen:
+    - ":6667"
+    - ":6697"
+
+  tls-listeners:
+    ":6697":
+      key: {{ TLS_KEY|default('tls.key') }}
+      cert: {{ TLS_CERT|default('tls.crt') }}
+
+  check-ident: true
+
+  password: {{ PASSWORD|default('') }}
+
+  motd: ircd.motd
+
+  max-sendq: 16k
+
+logging:
+  -
+    method: file stderr
+    filename: ircd.log
+    type: "* -userinput -useroutput -localconnect -localconnect-ip"
+    level: info
+  -
+    method: stderr
+    type: localconnect localconnect-ip
+    level: debug
+
+datastore:
+  path: ircd.db
+
+limits:
+  nicklen: 32
+  channellen: 64
+  awaylen: 500
+  kicklen: 1000
+  topiclen: 1000
+
+  monitor-entries: 100
+  whowas-entries: 100
+
+  chan-list-modes: 60
+
+  linelen:
+    tags: 2048
+    rest: 2048

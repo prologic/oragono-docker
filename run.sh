@@ -2,9 +2,7 @@
 
 set -e
 
-if [ ! -f ./ircd.yaml ]; then
-  cp oragono.yaml ircd.yaml
-fi
+j2 ircd.j2 > ircd.yaml
 
 if [ ! -f ircd.db ]; then
   ./oragono initdb
